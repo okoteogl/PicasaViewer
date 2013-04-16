@@ -23,8 +23,8 @@ def readPicasaIniFile():
   
   # ImageViewer2.runViewer("C:/Users/olga/Downloads/Annarella/video_frames")
   global mypath
-  picasainiFile = open("C:/Users/olga/Downloads/Annarella2/video_frames/.picasa.ini")
-  mypath = "C:/Users/olga/Downloads/Annarella2/video_frames/"
+  picasainiFile = open("C:/Users/olga/Downloads/Annarella/video_frames/.picasa.ini")
+  mypath = "C:/Users/olga/Downloads/Annarella/video_frames/"
   # onlyfiles = [ f for f in listdir(mypath) if isfile(join(mypath, f)) and f.endswith(".png" or ".jpg" or "jpeg")]
   # print onlyfiles
 
@@ -66,11 +66,12 @@ def readPicasaIniFile():
           # if list_of_bounding_boxes:
           # print "bounding boxes:"
             # for j in list_of_bounding_boxes:
+         
+            
           bounding_box = str(list_of_bounding_boxes[i])
           bounding_box = bounding_box[1:-1]
-          if len(bounding_box) < 16:
-            continue
-          # print bounding_box
+          while len(bounding_box) < 16:
+            bounding_box = '0' + bounding_box
           coords = []
           for i in range(0, 4):
             coords.append(float(int(bounding_box[i * 4:(i + 1) * 4], 16)) / 65535)

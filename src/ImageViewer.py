@@ -49,7 +49,7 @@ def runViewer(mypath, myTags):
       if dirlist[filename_index] in myTags:
         for tag in myTags[dirlist[filename_index]]:
           coords = tag[1]
-          print coords
+          # print coords
           canvas.create_rectangle(coords, fill=None, outline="red")     
 
       root.mainloop()  # wait until user clicks the window
