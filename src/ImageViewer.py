@@ -18,10 +18,20 @@ def onLeftArrowPress(event):
   filename_index -= 1
   event.widget.quit()  # exit mainloop and go to the previous image
 
+def findUniqueIDs(myTags):
+  uniqueIDs = []
+  for frame in myTags.keys(): 
+    for tag in myTags[frame]:
+      if tag[0] not in uniqueIDs:
+        uniqueIDs.append(tag[0])
+  return uniqueIDs
+  
 def runViewer(mypath, myTags):
   global filename_index
   dirlist = os.listdir(mypath)
+  colormap = ["red", "blue", "green", "yellow", "black", "gray", "pale turquoise", "maroon"]
 
+  uniqueIDs = findUniqueIDs(myTags)
   for item in dirlist[:]:
     if not item.endswith("png" or "jpg" or "jpeg"):  # whatever test you need to run goes here
       dirlist.remove(item)
@@ -48,11 +58,14 @@ def runViewer(mypath, myTags):
       
       if dirlist[filename_index] in myTags:
         for tag in myTags[dirlist[filename_index]]:
+          color_index = uniqueIDs.index(tag[0])
+          if color_index > len(colormap) - 1:
+            print "Insert more colors in colormap list"
+            exit(3)
           coords = tag[1]
-          # print coords
-          canvas.create_rectangle(coords, fill=None, outline="red")     
+          canvas.create_rectangle(coords, fill=None, outline=colormap[color_index], width="3.0")     
 
-      root.mainloop()  # wait until user clicks the window
+      root.mainloop()  # wait until user presses an arrow key
     except:
       root.mainloop()
     try:
