@@ -6,7 +6,7 @@ Created on Mar 30, 2013
 
 import ImageViewer
 from PIL import Image 
-import re, sys
+import re, sys, os
 
 def appendInTags(frame, identity, coords):
   global myPicasaIniTags
@@ -22,11 +22,15 @@ def readPicasaIniFile(mypath, picasainiFile):
   
   p2 = re.compile("\(\w+\)")  # find rectangles 
   p3 = re.compile("\,\w+[\;|\n]")  # find identities
+  contacts = re.compile("Contacts")
   line_number = 1
   global myPicasaIniTags
   myPicasaIniTags = {}
   for line in picasainiFile:
-  
+    print line_number
+    # skip Contacts
+    if contacts.findall(line) or re.compile(";;").findall(line):
+      continue
     if line_number == 1:
       line_number = 2
       filename = str(line[1:-2])
@@ -42,7 +46,7 @@ def readPicasaIniFile(mypath, picasainiFile):
           identity = str(list_of_identities[i])
           identity = identity[1:-1]
     
-          frame = Image.open(mypath + filename)
+          frame = Image.open(os.path.join(mypath, filename))
           width, height = frame.size          
           bounding_box = str(list_of_bounding_boxes[i])
           bounding_box = bounding_box[1:-1]

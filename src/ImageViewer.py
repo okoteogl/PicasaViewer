@@ -27,15 +27,15 @@ def findUniqueIDs(myTags):
   return uniqueIDs
   
 def runViewer(mypath, myTags):
+  print myTags
   global filename_index
   dirlist = os.listdir(mypath)
   colormap = ["red", "blue", "green", "yellow", "black", "gray", "pale turquoise", "maroon"]
 
   uniqueIDs = findUniqueIDs(myTags)
   for item in dirlist[:]:
-    if not item.endswith("png" or "jpg" or "jpeg"):  # whatever test you need to run goes here
+    if not (item.endswith("png") or item.endswith("jpg") or item.endswith("jpeg")):  # whatever test you need to run goes here
       dirlist.remove(item)
-  
   filename_index = 0
   root = Tkinter.Tk()
   frame_temp = Image.open(os.path.join(mypath, dirlist[0]))
@@ -50,6 +50,8 @@ def runViewer(mypath, myTags):
     try:
       canvas.delete("all")
       image1 = Image.open(os.path.join(mypath, dirlist[filename_index]))
+      img_width, img_height = image1.size 
+      canvas.config(width=img_width, height=img_height)
       root.geometry('%dx%d' % (image1.size[0], image1.size[1]))
       
       tkpi = ImageTk.PhotoImage(image1)
